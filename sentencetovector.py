@@ -24,7 +24,7 @@ def get_FEATURE_FI(sentence,feature_list):
         # 關鍵字出現次數
         key_frequency = 0
         # 關鍵字出現index的向量
-        key_k_list = [0]
+        key_k_list = []
 
         # 從頭往後找，找到關鍵字就記下次數跟index，然後下一次從關鍵字的下一個位置開始找
         while i < N:
