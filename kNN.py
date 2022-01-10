@@ -1,3 +1,5 @@
+import numpy as np
+
 def dist_ave(FEATURE_FI_1, FEATURE_FI_2, N):
     """
     Args:
@@ -24,3 +26,18 @@ def dist_ave(FEATURE_FI_1, FEATURE_FI_2, N):
 
     result = x + y
     return result
+
+def kNNmodel(unknown_dist_list, type_list, k):
+    # list to array
+    unknown_dist_array = np.array(unknown_dist_list)
+    # find the k smallest numbers in the array
+    idx = np.argpartition(unknown_dist_array, k)
+    # 取得type_list上對應的類別
+    temp = []
+    for ind in idx[:k]:
+        temp.append(type_list[ind])
+    
+    # find the most common element in temp
+    most_common = max(temp, key = temp.count)
+    
+    return most_common
