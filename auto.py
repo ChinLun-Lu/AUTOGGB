@@ -3,9 +3,9 @@ from selenium.webdriver.common.keys import Keys
 import time
 
 #開啟GeoGebra，用driver開啟特定網頁
-geogebra_classic = "https://www.geogebra.org/classic"
+geogebra_classic_home = "https://www.geogebra.org/classic"
 driver = webdriver.Chrome(executable_path="/Users/chinlun/Downloads/chromedriver")
-driver.get(geogebra_classic)
+driver.get(geogebra_classic_home)
 
 
 
