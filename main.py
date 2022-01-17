@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import sentencetovector
 import kNN
 import matplotlib.pyplot as plt
@@ -60,18 +61,27 @@ for i in range(len(stype_list)):
         #print('predict: ', predict)
         #print('real: ', stype_list[i])
 
-print(pred_list)
-print(stype_list)
+#print(pred_list)
+#print(stype_list)
 
 # confusion matrix 分析
 # 實際
 y_actu = pd.Series(stype_list, name='Actual')
 # 預測
 y_pred = pd.Series(pred_list, name='Predicted')
+
+#print(y_actu)
+#print(y_pred)
 # confusion matrix
 df_confusion = pd.crosstab(y_actu, y_pred)
-print(df_confusion)
+#print(df_confusion)
 # draw confusion matrix
 sn.heatmap(df_confusion, annot=True)
 plt.show()
 
+# find wrong predict
+# add 'predict' to the dataframe
+df2['predict'] = np.array(pred_list)
+# dataframe incorrect collect the wrong preditc
+incorrect = df2[df2['predict'] != df2['Type']]
+print(incorrect)
