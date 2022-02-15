@@ -14,7 +14,7 @@ sentence_list = df1['Sentence'].tolist()
 type_list = df1['Type'].tolist()
 
 # 關鍵字列表
-feature_list = ['圓', '線段', '直線', '中垂線', '中點', '拋物線']
+feature_list = ['圓', '線段', '直線', '中點', '拋物線', '三角形']
 N = len(feature_list)
 # 動詞、其他數學名詞列表
 verb_list = ['作', '畫', '求']
@@ -34,7 +34,7 @@ stype_list = df2['Type'].tolist()
 # 預測list
 pred_list = []
 # value of 'k'
-k = 7
+k = 11
 
 # predict model
 for i in range(len(stype_list)):
@@ -72,12 +72,22 @@ y_pred = pd.Series(pred_list, name='Predicted')
 
 #print(y_actu)
 #print(y_pred)
+
 # confusion matrix
-df_confusion = pd.crosstab(y_actu, y_pred)
-#print(df_confusion)
-# draw confusion matrix
-sn.heatmap(df_confusion, annot=True)
-plt.show()
+df_confusion = pd.crosstab(y_actu, y_pred, dropna=False)
+raw_of_types = ['Circle', 'Segment', 'Line', 'Midpoint', 
+                'Parabola', 'Polygon', 'Otherwise']
+# reorder columns
+df_confusion = df_confusion.reindex(raw_of_types, axis="columns")
+# reorder raws
+df_confusion = df_confusion.reindex(raw_of_types)
+print(df_confusion)
+
+# calculate the metrics
+df_confusion02 = df_confusion.to_numpy()
+metrics = kNN.metric4kNNmodel(df_confusion02)
+print(metrics)
+
 
 # find wrong predict
 # add 'predict' to the dataframe
@@ -85,3 +95,18 @@ df2['predict'] = np.array(pred_list)
 # dataframe incorrect collect the wrong preditc
 incorrect = df2[df2['predict'] != df2['Type']]
 print(incorrect)
+
+# draw confusion matrix
+#specify size of heatmap
+fig, ax = plt.subplots(figsize=(7, 5))
+sn.heatmap(df_confusion, annot=True)
+# add title and axe labels
+plt.title('Confusion Matrix')
+#plt.xlabel('Actual')
+#plt.ylabel('Predict')
+plt.show()
+
+
+# calculate average accuracy
+# (TP + TN)/# of category
+
