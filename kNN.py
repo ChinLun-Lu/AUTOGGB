@@ -64,22 +64,22 @@ def metric4kNNmodel_display(x_test, y_test, target_names):
 
     # importing accuracy_score, precision_score, recall_score, f1_score
     from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-    print('\nAccuracy: {:.2f}\n'.format(accuracy_score(x_test, y_test)))
+    print('\nAccuracy: {:.3f}\n'.format(accuracy_score(x_test, y_test)))
 
     # Micro : global
-    print('Micro Precision: {:.2f}'.format(precision_score(x_test, y_test, average='micro')))
+    print('Micro Precision: {:.3f}'.format(precision_score(x_test, y_test, average='micro')))
     print('Micro Recall: {:.2f}'.format(recall_score(x_test, y_test, average='micro')))
-    print('Micro F1-score: {:.2f}\n'.format(f1_score(x_test, y_test, average='micro')))
+    print('Micro F1-score: {:.3f}\n'.format(f1_score(x_test, y_test, average='micro')))
 
     # macro : each class and takes unweighted mean
-    print('Macro Precision: {:.2f}'.format(precision_score(x_test, y_test, average='macro')))
-    print('Macro Recall: {:.2f}'.format(recall_score(x_test, y_test, average='macro')))
-    print('Macro F1-score: {:.2f}\n'.format(f1_score(x_test, y_test, average='macro')))
+    print('Macro Precision: {:.3f}'.format(precision_score(x_test, y_test, average='macro')))
+    print('Macro Recall: {:.3f}'.format(recall_score(x_test, y_test, average='macro')))
+    print('Macro F1-score: {:.3f}\n'.format(f1_score(x_test, y_test, average='macro')))
 
     # weighted : weight from number of each class
-    print('Weighted Precision: {:.2f}'.format(precision_score(x_test, y_test, average='weighted')))
-    print('Weighted Recall: {:.2f}'.format(recall_score(x_test, y_test, average='weighted')))
-    print('Weighted F1-score: {:.2f}'.format(f1_score(x_test, y_test, average='weighted')))
+    print('Weighted Precision: {:.3f}'.format(precision_score(x_test, y_test, average='weighted')))
+    print('Weighted Recall: {:.3f}'.format(recall_score(x_test, y_test, average='weighted')))
+    print('Weighted F1-score: {:.3f}'.format(f1_score(x_test, y_test, average='weighted')))
 
     # importing classification_report
     from sklearn.metrics import classification_report
