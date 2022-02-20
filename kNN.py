@@ -1,5 +1,5 @@
-from matplotlib import transforms
 import numpy as np
+import pandas as pd
 
 def dist_ave(FEATURE_FI_1, FEATURE_FI_2, N):
     """
@@ -32,8 +32,8 @@ def kNNmodel(unknown_dist_list, type_list, k):
     """[summary]
     用kNN的概念來做分類
     Args:
-        unknown_dist_list ([list]): [欲分類資料與全體資料的距離列表]
-        type_list ([list]): [全體資料的繪圖項目列表]
+        unknown_dist_list ([list]): [欲分類資料與訓練資料的距離列表]
+        type_list ([list]): [訓練資料的繪圖項目列表]
         k ([type]): [kNN的k]
 
     Returns:
@@ -54,54 +54,35 @@ def kNNmodel(unknown_dist_list, type_list, k):
     return most_common
 
 
-def metric4kNNmodel(confusion_mat):
-    """summary
-    Calculate performance of kNN model.
-    Including:
-    Accuracy
-    Precision
-    Sensitivity(TPR)
-    Specificity(TNR)
-    FPR
-    FNR
-    ================
-    variable:
-    confusion_matrix: [ndarray] confusion matrix of kNNmodel
-    
-    return:
-    metrics: [array] containing Accuracy, TPR, FPR, TNR, FNR
-    """
-    # colunm sum and row sum
-    colunm_sums = np.sum(confusion_mat, axis = 0)
-    row_sums = np.sum(confusion_mat, axis = 1)
-    # all array elements sum
-    arr_sums = np.sum(confusion_mat)
-    
-    # calculate the metrics
-    metrics = []
-    for i in range(confusion_mat.shape[0]):
-        metric = []
-        # TP
-        tp = confusion_mat[i,i]
-        # FP
-        fp = colunm_sums[i] - tp
-        # FN
-        fn = row_sums[i] - tp
-        # TN
-        tn = arr_sums - (fn + fp + tp)
-        # accuracy: (TP + TN)/(TP + FP + FN + TN)
-        acc = (tp + tn)/(tp + fp + fn + tn)
-        # TPR,FPR,TNR,FNR
-        tpr = tp/(tp + fn)
-        fpr = fp/(fp + tn)
-        tnr = 1 - fpr
-        fnr = 1 - tpr
-        metric.append(acc)
-        metric.append(tpr)
-        metric.append(fpr)
-        metric.append(tnr)
-        metric.append(fnr)
-        metrics.append(metric)
-    metrics = np.array(metrics)
-    
-    return metrics
+def metric4kNNmodel_display(x_test, y_test, target_names):
+    ### 模型表現分析 ###
+    # importing confusion_matrix
+    from sklearn.metrics import confusion_matrix
+    confusionmatrix = confusion_matrix(x_test, y_test)
+    print('Confusion Matrix\n')
+    print(confusionmatrix)
+
+    # importing accuracy_score, precision_score, recall_score, f1_score
+    from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+    print('\nAccuracy: {:.2f}\n'.format(accuracy_score(x_test, y_test)))
+
+    # Micro : global
+    print('Micro Precision: {:.2f}'.format(precision_score(x_test, y_test, average='micro')))
+    print('Micro Recall: {:.2f}'.format(recall_score(x_test, y_test, average='micro')))
+    print('Micro F1-score: {:.2f}\n'.format(f1_score(x_test, y_test, average='micro')))
+
+    # macro : each class and takes unweighted mean
+    print('Macro Precision: {:.2f}'.format(precision_score(x_test, y_test, average='macro')))
+    print('Macro Recall: {:.2f}'.format(recall_score(x_test, y_test, average='macro')))
+    print('Macro F1-score: {:.2f}\n'.format(f1_score(x_test, y_test, average='macro')))
+
+    # weighted : weight from number of each class
+    print('Weighted Precision: {:.2f}'.format(precision_score(x_test, y_test, average='weighted')))
+    print('Weighted Recall: {:.2f}'.format(recall_score(x_test, y_test, average='weighted')))
+    print('Weighted F1-score: {:.2f}'.format(f1_score(x_test, y_test, average='weighted')))
+
+    # importing classification_report
+    from sklearn.metrics import classification_report
+
+    print('\nClassification Report\n')
+    print(classification_report(x_test, y_test, target_names=target_names))
